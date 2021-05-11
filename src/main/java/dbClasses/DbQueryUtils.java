@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public class DbQueryUtils {
 
-    public static void getMinMsgLengthUser(){
+    public static void getMinMsgLengthUser() {
         String getUserSql =
-            "select name, surname " +
-            "from t_user left join t_letter on t_user.id = t_letter.id " +
-            "where length(t_letter.content) = (select min(length(content)) from t_letter)";
+                "select name, surname " +
+                        "from t_user left join t_letter on t_user.id = t_letter.id " +
+                        "where length(t_letter.content) = (select min(length(content)) from t_letter)";
         String[] colNames = {"name", "surname"};
 
         try (Connection connection = DbConnectionUtils.getConnection();
@@ -27,10 +27,10 @@ public class DbQueryUtils {
 
     public static void getAllUserInfo() {
         String getUserSql =
-            "select t2.sender_id as userid, t1.name, t1.surname, t1.dob, count(t2.id) as sent " +
-            "from t_user t1 left join t_letter t2 on t1.id = t2.sender_id " +
-            "group by t2.sender_id, t1.name, t1.surname, t1.dob " +
-            "order by t2.sender_id";
+                "select t2.sender_id as userid, t1.name, t1.surname, t1.dob, count(t2.id) as sent " +
+                        "from t_user t1 left join t_letter t2 on t1.id = t2.sender_id " +
+                        "group by t2.sender_id, t1.name, t1.surname, t1.dob " +
+                        "order by t2.sender_id";
         String[] colNames = {"name", "surname", "dob", "sent"};
 
         try (Connection connection = DbConnectionUtils.getConnection();
@@ -87,7 +87,7 @@ public class DbQueryUtils {
         String getTopics = "select distinct topic from t_letter";
 
         try (Connection c = DbConnectionUtils.getConnection();
-             Statement s = c.createStatement()){
+             Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(getTopics);
             while (rs.next()) {
                 result.add(rs.getString("topic"));
@@ -102,7 +102,7 @@ public class DbQueryUtils {
         ArrayList<String> result = new ArrayList<>();
         String getUserIds = "select id from t_user";
         try (Connection c = DbConnectionUtils.getConnection();
-             Statement s = c.createStatement()){
+             Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(getUserIds);
             while (rs.next()) {
                 result.add(rs.getString("id"));
@@ -122,8 +122,8 @@ public class DbQueryUtils {
     private static ResultSet getIdsReceivedTopic(Connection c, String topic) throws SQLException {
         String getReceiverIdsSql =
                 "select distinct unnest(receiver_ids) as userid " +
-                "from t_letter " +
-                "where topic = '" + topic + "'";
+                        "from t_letter " +
+                        "where topic = '" + topic + "'";
         Statement s = c.createStatement();
         return s.executeQuery(getReceiverIdsSql);
     }
@@ -131,8 +131,8 @@ public class DbQueryUtils {
     private static String getMsgReceivedByUser(Connection c, String userid) throws SQLException {
         String getMsgCountSql =
                 "select count(t1.id) " +
-                "from t_letter t1 left join t_user t2 on t1.sender_id = t2.id " +
-                "where " + userid + " = any(receiver_ids) ";
+                        "from t_letter t1 left join t_user t2 on t1.sender_id = t2.id " +
+                        "where " + userid + " = any(receiver_ids) ";
         Statement s = c.createStatement();
         ResultSet rs = s.executeQuery(getMsgCountSql);
         rs.next();

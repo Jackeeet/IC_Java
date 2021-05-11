@@ -33,7 +33,15 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.20</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-agroal</artifactId>
+            <version>5.4.30.Final</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
+
 
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>

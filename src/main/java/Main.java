@@ -1,8 +1,14 @@
+import dao.MessageDao;
+import dao.UserDao;
 import dbClasses.DbDataModifier;
 import dbClasses.DbQueryUtils;
+import dbo.Message;
+import dbo.MessageToReceiver;
+import dbo.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -76,7 +82,54 @@ public class Main {
         }
     }
 
-    public static void main(String[] args){
-        run();
+    public static void main(String[] args) {
+        UserDao userDao = new UserDao();
+        MessageDao messageDao = new MessageDao();
+
+        List<User> users = userDao.getAllUsers();
+        for (User user : users) {
+            System.out.println(user.getName() + " " + user.getSurname());
+        }
+        User user3 = userDao.getUserById(3);
+//        System.out.println(user3.getId() + " " + user3.getName() + " " + user3.getSurname());
+
+//        System.out.println("all messages:");
+//        List<Message> messages = messageDao.getAllMessages();
+//        for (Message msg : messages) {
+//            System.out.println(
+//                    msg.getId() + " " +
+//                            msg.getSender().toString() + " " +
+//                            msg.getTopic() + " " +
+//                            msg.getContent() + " " +
+//                            msg.getDateSent());
+//        }
+//
+//        Message msg3 = messageDao.getMessageById(3);
+//        System.out.println(
+//                msg3.getId() + " " +
+//                        msg3.getSender().toString() + " " +
+//                        msg3.getTopic() + " " +
+//                        msg3.getContent() + " " +
+//                        msg3.getDateSent());
+
+//        User shortest = userDao.getShortestMessageSender();
+//        System.out.println(shortest.toString());
+
+//        List<User> users1 = userDao.getUsersWithTopic("birds");
+//        for (User user : users1) {
+//            System.out.println(user.getName() + " " + user.getSurname());
+//        }
+//
+//        List<User> users2 = userDao.getUsersWithoutTopic("birds");
+//        for (User user : users2) {
+//            System.out.println(user.getName() + " " + user.getSurname());
+//        }
+        userDao.printAllUsersInfo();
+
+//        Message newMessage = new Message(user3, "fish", "снова продаю рыбу");
+//        List<User> receivers = userDao.getAllUsers();
+//        receivers.remove(2);
+//        receivers.remove(2);
+//        messageDao.sendToAllReceivers(newMessage, receivers);
     }
 }
